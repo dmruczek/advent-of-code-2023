@@ -29,6 +29,42 @@ describe('TrebuchetCalibrator', function () {
         });
     });
 
+    describe('extractNumbers2', function() {
+        it ('should extract all of the numbers from the given string, including numbers spelled out in english.', function () {
+            const trebuchetCalibrator = new TrebuchetCalibrator();
+            expect(trebuchetCalibrator.extractNumbers2('abcone2threexyz')).toEqual([ 1, 2, 3 ]);
+            expect(trebuchetCalibrator.extractNumbers2('twoone92threenphjgdlztslfourvlfpbdqpvh')).toEqual([ 2, 1, 9, 2, 3, 4 ]);
+            expect(trebuchetCalibrator.extractNumbers2('mrtwone3seventhree')).toEqual([ 2, 1, 3, 7, 3 ]);
+            
+
+        });
+    });
+
+    describe('processCalibrationLine2', function() {
+        it ('should extract the first and last numbers in the line and turn them into a number, including numbers spelled out in english.', function () {
+            const trebuchetCalibrator = new TrebuchetCalibrator();
+            expect(trebuchetCalibrator.processCalibrationLine2('two1nine')).toEqual(29);
+            expect(trebuchetCalibrator.processCalibrationLine2('eightwothree')).toEqual(83);
+            expect(trebuchetCalibrator.processCalibrationLine2('abcone2threexyz')).toEqual(13);
+            expect(trebuchetCalibrator.processCalibrationLine2('xtwone3four')).toEqual(24);
+            expect(trebuchetCalibrator.processCalibrationLine2('4nineeightseven2')).toEqual(42);
+            expect(trebuchetCalibrator.processCalibrationLine2('zoneight234')).toEqual(14);
+            expect(trebuchetCalibrator.processCalibrationLine2('7pqrstsixteen')).toEqual(76);
+            expect(trebuchetCalibrator.processCalibrationLine2('four48rvhnzsnzmjxrl258')).toEqual(48);
+            expect(trebuchetCalibrator.processCalibrationLine2('four48rvhnzsnzmjxrl258five')).toEqual(45);
+            expect(trebuchetCalibrator.processCalibrationLine2('nine')).toEqual(99);
+            expect(trebuchetCalibrator.processCalibrationLine2('twoone92threenphjgdlztslfourvlfpbdqpvh')).toEqual(24);
+
+            
+        });
+    });
+   
+    describe('calibrate2', function () {
+        it('should process all lines and add them together to get the total calibration number, including numbers spelled out in english.', function () {
+            const trebuchetCalibrator = new TrebuchetCalibrator();
+            expect(trebuchetCalibrator.calibrate2('test-input-2.txt')).toEqual(281);
+        });
+    });
     
     
 });
