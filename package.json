@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
       "test": "jasmine",
-      "coverage": "nyc --exclude='**/*-spec.js'  --reporter=lcov --reporter=text-summary npm run test"
+      "coverage": "nyc --exclude='**/*.spec.js'  --reporter=lcov --reporter=text-summary npm run test"
     },
     "repository": {
       "type": "git",
