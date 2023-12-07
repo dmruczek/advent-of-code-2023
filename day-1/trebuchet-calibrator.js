@@ -12,7 +12,8 @@ module.exports = class TrebuchetCalibrator {
     }
 
     processCalibrationLine(str) {
-        return parseInt((this.getFirstNumber(str) + this.getLastNumber(str)), 10);
+        const numbers = this.extractNumbers(str);
+        return parseInt((this.getFirstNumber(numbers) + this.getLastNumber(numbers)), 10);
     }
 
     extractNumbers(str) {
@@ -25,10 +26,11 @@ module.exports = class TrebuchetCalibrator {
         return match;
     }
 
-    getFirstNumber(str) {
+    getFirstNumber(numbers) {
+
     }
 
-    getLastNumber(str) {
+    getLastNumber(numbers) {
 
     }
 }
