@@ -17,21 +17,24 @@ module.exports = class TrebuchetCalibrator {
     }
 
     extractNumbers(str) {
-        const match = str.match(/\d/g);
-        if (match) {
-
-        } else {
-            throw 'there were no numbers in the string provided';
-        }
-        return match;
+        return str.match(/\d/g);
     }
 
     getFirstNumber(numbers) {
-
+        return numbers[0];
     }
 
     getLastNumber(numbers) {
+        return numbers[numbers.length-1];
+    }
 
+    calibrate(filename) {
+        const stringArray = this.loadInput(filename);
+        let total = 0;
+        for (let str of stringArray) {
+            total += this.processCalibrationLine(str);
+        }
+        return total;
     }
 }
 
