@@ -81,17 +81,6 @@ module.exports = class EngineSchematicDecoder {
         return partNumbers;
     }
 
-    printNumberWithSurroundings(row, numStart, numEnd, stringArray) {
-        if (row > 0) {
-            console.log(stringArray[row - 1].substring(numStart - 1, numEnd + 2));
-        }
-        console.log(stringArray[row].substring(numStart - 1, numEnd + 2));
-        if (row < stringArray.length - 1) {
-            console.log(stringArray[row + 1].substring(numStart - 1, numEnd + 2));
-        }
-        console.log('\n');
-    }    
-
     calculateSumOfAllPartNumbers(stringArray) {
         const partNumbers = this.findPartNumbers(stringArray);
         let total = 0;
@@ -100,6 +89,81 @@ module.exports = class EngineSchematicDecoder {
         }
         return total;
     }
+
+    findAllGears(stringArray) {
+        const gearRegex = /(\*)/g;
+        const gearArray = [];
+        for (let row = 0; row < stringArray.length; row++) {
+            let str = stringArray[row], result;
+            while (result = gearRegex.exec(str)) {
+                const gearInfo = this.determineGearConfiguration(row, result.index, stringArray);
+                if (gearInfo) {
+                    gearArray.push(gearInfo)
+                }
+            }
+        }
+        return gearArray;
+    }
+
+    calculateSumOfAllGearRatios(stringArray) {
+        const gears = this.findAllGears(stringArray);
+        let total = 0;
+        for (let gear of gears) {
+            total += gear.ratio;
+        }
+        return total;
+    }
+
+
+    expandAndExtractNumbers(fullStr, startIndex, endIndex) {
+        // console.log(fullStr.substring(startIndex, endIndex+1));
+        while (startIndex > 0 && this.isNumeric(fullStr.charAt(startIndex))) {
+            startIndex--;
+        }
+        // console.log(fullStr.substring(startIndex, endIndex+1));
+        while (endIndex < fullStr.length-1 && this.isNumeric(fullStr.charAt(endIndex))) {
+            endIndex++;
+        }
+        // console.log(fullStr.substring(startIndex, endIndex+1));
+        const searchStr = fullStr.substring(startIndex, endIndex+1);
+        let numbers = [];
+        let result;
+        const numberRegex = /(\d+)/g;
+
+        while (result = numberRegex.exec(searchStr)) {
+            numbers.push(parseInt(result[0]));
+        }
+
+        return numbers;
+    }
+
+
+    determineGearConfiguration(row, index, stringArray) {
+        let borderingNumbers = [];
+
+        if (index > 0) {
+            borderingNumbers.push(...this.expandAndExtractNumbers(stringArray[row], index-1, index-1));
+        }
+        if (index < stringArray[0].length-1) {
+            borderingNumbers.push(...this.expandAndExtractNumbers(stringArray[row], index+1, index+1));
+        }
+        if (row > 0) {
+            borderingNumbers.push(...this.expandAndExtractNumbers(stringArray[row-1], index-1, index+1));
+        }
+        if (row < stringArray.length-1) {
+            borderingNumbers.push(...this.expandAndExtractNumbers(stringArray[row+1], index-1, index+1));
+        }
+        if (borderingNumbers.length == 2) {
+            return {
+                row: row,
+                index: index,
+                ratio: borderingNumbers[0] * borderingNumbers[1]
+            };
+        } else {
+            return undefined;
+        }
+    }
+
 
 }
 

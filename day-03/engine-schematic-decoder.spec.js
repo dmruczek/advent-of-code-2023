@@ -34,5 +34,31 @@ describe('EngineSchematicDecoder', function () {
             expect(engineSchematicDecoder.calculateSumOfAllPartNumbers(stringArray)).toEqual(4361);
         });
     });
+   
+
+    describe('findAllGears', function () {
+        it('should find all of the "gears" in the schematic', function () {
+            const engineSchematicDecoder = new EngineSchematicDecoder();
+            let stringArray = engineSchematicDecoder.loadInput('test-input.txt');
+            expect(engineSchematicDecoder.findAllGears(stringArray)).toEqual([{ row: 1, index: 3, ratio: 16345}, { row: 8, index: 5, ratio: 451490}]);
+        });
+    });
+    
+    describe('expandAndExtractNumbers', function () {
+        it('should expand the search area of a string until all numbers are fully uncovered, then return those numbers', function () {
+            const engineSchematicDecoder = new EngineSchematicDecoder();
+            expect(engineSchematicDecoder.expandAndExtractNumbers('.467..114..', 3, 5)).toEqual([467]);
+            expect(engineSchematicDecoder.expandAndExtractNumbers('.467.114...', 3, 5)).toEqual([467,114]);
+            expect(engineSchematicDecoder.expandAndExtractNumbers('.467.......', 2, 4)).toEqual([467]);
+        });
+    });
+    
+    describe('calculateSumOfAllGearRatios', function () {
+        it('should find all of the gears in the schematic and add up their ratios', function () {
+            const engineSchematicDecoder = new EngineSchematicDecoder();
+            let stringArray = engineSchematicDecoder.loadInput('test-input.txt');
+            expect(engineSchematicDecoder.calculateSumOfAllGearRatios(stringArray)).toBe(467835);
+        });
+    })
     
 });
