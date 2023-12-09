@@ -56,8 +56,8 @@ describe('EngineSchematicDecoder', function () {
     describe('determineGearConfiguration', function () {
         it('should handle edge conditions', function () {
             const engineSchematicDecoder = new EngineSchematicDecoder();
-            expect(engineSchematicDecoder.determineGearConfiguration(0, 0, ['*...', '....'])).toBeUndefined();
-            expect(engineSchematicDecoder.determineGearConfiguration(1, 3, ['....', '...*'])).toBeUndefined();
+            expect(engineSchematicDecoder.determineGearConfiguration(0, 0, ['*50.', '50..'])).toEqual({ row: 0, index: 0, ratio: 2500 })
+            expect(engineSchematicDecoder.determineGearConfiguration(1, 3, ['.50.', '.50*'])).toEqual({ row: 1, index: 3, ratio: 2500 })
         });
     });
 
