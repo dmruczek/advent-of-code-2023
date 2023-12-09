@@ -52,6 +52,15 @@ describe('EngineSchematicDecoder', function () {
             expect(engineSchematicDecoder.expandAndExtractNumbers('.467.......', 2, 4)).toEqual([467]);
         });
     });
+
+    describe('determineGearConfiguration', function () {
+        it('should handle edge conditions', function () {
+            const engineSchematicDecoder = new EngineSchematicDecoder();
+            expect(engineSchematicDecoder.determineGearConfiguration(0, 0, ['*...', '....'])).toBeUndefined();
+            expect(engineSchematicDecoder.determineGearConfiguration(1, 3, ['....', '...*'])).toBeUndefined();
+        });
+    });
+
     
     describe('calculateSumOfAllGearRatios', function () {
         it('should find all of the gears in the schematic and add up their ratios', function () {
