@@ -26,18 +26,25 @@ module.exports = class ScratchcardCalculator {
         return cards;
     }
 
-    calculateScoreForCard(card) {
+    processCard(card) {
         let matches = 0;
         for (let num of card.playedNumbers) {
             if (card.winningNumbers.includes(num)) {
                 matches ++;
             }
         }
+        card.matches = matches;
         if (matches == 0) {
-            return 0;
+            card.score = 0;
         } else {
-            return Math.pow(2, matches-1);
+            card.score = Math.pow(2, card.matches-1);
         }
+        return card;
+    }
+
+    calculateScoreForCard(card) {
+        card = this.processCard(card);
+        return card.score;
     }
 
     calculateTotalScoreForAllCards(stringArray) {
@@ -49,6 +56,20 @@ module.exports = class ScratchcardCalculator {
         return total;
     }
 
+    processAllCardsWithCopies(stringArray) {
+        let cardCopies = Array(stringArray.length+1).fill(0);
+        let totalCards = 0;
+        const cards = this.parseCardData(stringArray);
+
+        for (let card of cards) {
+            card = this.processCard(card);
+            for (let i = 1; i <= card.matches; i++) {
+                cardCopies[card.num + i] += (1 + cardCopies[card.num])
+            }
+            totalCards+= (1 + cardCopies[card.num]);
+        }
+        return totalCards;
+    }
 
 }
 

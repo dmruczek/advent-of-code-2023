@@ -41,5 +41,13 @@ describe('ScratchcardCalculator', function () {
             expect(scratchcardCalculator.calculateTotalScoreForAllCards(stringArray)).toBe(13);
         });
     });
+
+    describe('processAllCardsWithCopies', function () {
+        it('should find matches for all cards, including duplicate cards won from previous cards and return the total number of cards at the end.', function () {
+            const scratchcardCalculator = new ScratchcardCalculator();
+            let stringArray = scratchcardCalculator.loadInput('test-input.txt');
+            expect(scratchcardCalculator.processAllCardsWithCopies(stringArray)).toBe(30);
+        });
+    });
     
 });
