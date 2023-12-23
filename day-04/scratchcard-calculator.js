@@ -14,7 +14,7 @@ module.exports = class ScratchcardCalculator {
     parseCardData(stringArray) {
         const regex = /^Card\s*(\d+): ((?:\s*\d+\s*)*) \| ((?:\s*\d+\s*)*)$/;
 
-        let cards = []
+        let cards = [];
         for (let str of stringArray) {
             let result = regex.exec(str)
             cards.push({
